@@ -1,0 +1,895 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f8;
+    color: #222;
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    width: 99%;
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ==========================
+   HEADER (MENÚ NEGRO PRINCIPAL)
+========================== */
+header {
+    background: #000000;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+    animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- ESTILOS DEL MENÚ ROJO CENTRADO --- */
+.top-red-menu {
+    background-color: #ff0000;
+    padding: 10px 0; 
+    text-align: center;
+    
+    position: sticky; 
+    top: 70px;
+    z-index: 950; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.container-red-menu {
+    max-width: 1200px; 
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center; 
+    gap: 40px; 
+    padding: 0 10px;
+}
+
+.top-red-menu a {
+    color: #fff;
+    font-size: 1rem; 
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+    position: relative;
+    padding: 5px 0; 
+}
+
+.top-red-menu a:hover {
+    opacity: 1;
+}
+
+.top-red-menu a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: #fff; 
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s;
+}
+
+.top-red-menu a:hover::after {
+    width: 100%;
+}
+/* ------------------------------------- */
+
+
+.header-logo {
+    height: 40px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    display: inline-block;
+}
+
+nav a {
+    margin-left: 8px;
+    font-size: 0.8rem;
+    color: #fff;
+    font-weight: 500;
+    position: relative;
+    white-space: nowrap;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #ffcc00;
+    bottom: -4px;
+    left: 0;
+    transition: 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+.btn-contact {
+    background: #ff0000;
+    color: #fff;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background 0.3s ease, transform 0.1s ease;
+    white-space: nowrap;
+}
+
+.btn-contact:hover {
+    background: #cc0000;
+}
+
+/* ==========================
+    HERO SECTION
+========================== */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 10%;
+    color: white;
+
+    background: url('images/modelos-web-corolla.jpg') no-repeat center center/cover;
+    position: relative;
+    min-height: 500px;
+    background-color: #0A1E3A;
+    z-index: 1;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+
+.hero-text {
+    flex: 1 1 400px;
+    padding: 20px;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ffcc00;
+}
+
+.hero-text .btn {
+    background: #ffcc00; 
+    color: #0A1E3A;
+    padding: 10px 20px;
+    font-weight: 700;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+/* ==========================
+    PESTAÑAS DE NAVEGACIÓN (SECCIÓN DE FEATURES - MENÚ NEGRO)
+========================== */
+.sub-nav-section {
+    background: #000;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    position: sticky; 
+    top: 105px;
+    z-index: 900;
+    
+    /* FIX PARA ANCHOR LINK (SCROLL-TO) - VALOR SEGURO */
+    scroll-margin-top: 150px; 
+}
+
+.sub-nav-tabs {
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: auto; 
+}
+
+.sub-nav-tabs a,
+.sub-nav-tabs .tab-title {
+    padding: 15px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    position: relative;
+    text-transform: uppercase;
+    color: #fff;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.sub-nav-tabs a:hover {
+    color: #ffcc00;
+}
+
+.sub-nav-tabs .active {
+    color: #ffcc00;
+    border-bottom: 3px solid #ffcc00;
+}
+
+/* FIX: TITULO NO CLICKEABLE (Corolla) */
+.sub-nav-tabs .tab-title {
+    cursor: default;
+}
+
+/* ==========================
+    CONTROL DE VISIBILIDAD DE PESTAÑAS (TABS)
+========================== */
+.tab-content-container {
+    width: 100%;
+}
+
+.content-section {
+    display: none;
+    padding-top: 30px;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* ==========================
+    SECCIONES GENERALES
+========================== */
+.section {
+    padding: 60px 10%;
+    text-align: center;
+    /* FIX PARA ANCHOR LINK (SCROLL-TO) - VALOR SEGURO */
+    scroll-margin-top: 150px; 
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #0a1e3a;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 3px;
+    background: #ff0000;
+    border-radius: 5px;
+}
+
+/* ==========================
+    SECCIÓN DE DISEÑO Y CARACTERÍSTICAS (CONTENIDO DE PESTAÑAS)
+========================== */
+
+.design-section {
+    padding: 0 0 60px 0;
+    background-color: #f4f6f8;
+}
+
+.design-image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    width: 100%;
+    margin-bottom: 40px;
+    height: 300px; 
+}
+
+.design-image-grid img { 
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.feature-module-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    padding: 0 20px;
+}
+
+.feature-module {
+    background: #e6e6e6; 
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: none;
+    transition: background 0.3s;
+}
+
+.feature-module:hover {
+    background: #dcdcdc;
+}
+
+.feature-module i {
+    font-size: 2rem;
+    color: #ffcc00;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.feature-module h4 {
+    font-size: 1.1rem;
+    color: #0a1e3a;
+    margin-bottom: 5px;
+}
+
+.feature-module p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+
+/* ==========================
+    VERSIONES GRID (SECCIÓN FIJA)
+========================== */
+.versions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.version-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.version-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.version-card img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.price-box {
+    background: #fcebeb; 
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ffcccc;
+    margin: 10px auto 0;
+    max-width: 150px;
+}
+
+.price-box small {
+    display: block;
+    color: #ff0000;
+    font-size: 0.75rem;
+    margin-bottom: 5px;
+}
+
+.price-box p {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0a1e3a;
+    line-height: 1.2;
+}
+
+.price-box strong {
+    font-weight: 900;
+    color: #ff0000;
+}
+
+/* ==========================
+    SECCIÓN: COLORES DISPONIBLES (FIX DE LAYOUT)
+========================== */
+.color-section {
+    padding: 60px 10%;
+    background-color: #ffffff;
+    text-align: center; 
+}
+
+.color-content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.car-display {
+    flex: 1; 
+    max-width: 400px; 
+    padding-top: 50px; 
+}
+
+.car-display img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.color-palette-container {
+    flex: 1; 
+    padding-top: 20px;
+    max-width: 350px; 
+    margin-left: 50px;
+    
+    /* AÑADIDO: CENTRA LOS ELEMENTOS DE TEXTO E IMAGEN */
+    text-align: center; 
+}
+
+.color-palette-container h3 {
+    font-size: 1.2rem;
+    color: #222;
+    margin-bottom: 20px;
+    position: relative;
+    text-transform: none;
+}
+
+/* Línea roja debajo del título "Colores disponibles" */
+.color-palette-container h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%; /* CENTRAR */
+    transform: translateX(-50%); /* CENTRAR */
+    width: 100px; 
+    height: 3px;
+    background: #ff0000;
+}
+
+.color-palette-grid {
+    /* CAMBIO CLAVE: 4 columnas para mejor layout (4 + 3 = 7) */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    max-width: 320px; /* Ajuste de ancho para 4 columnas */
+    margin: 0 auto 15px auto; /* Centrar la grilla horizontalmente */
+}
+
+.color-swatch {
+    width: 70px; 
+    height: 70px;
+    border-radius: 0;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.color-swatch.selected {
+    border: 3px solid #ff0000 !important;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+.color-name-display {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ff0000;
+    margin-top: 10px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.color-name-display::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* CENTRAR */
+    transform: translateX(-50%); /* CENTRAR */
+    width: 60px;
+    height: 3px;
+    background: #ff0000;
+}
+
+
+/* ==========================
+    SECCIÓN DE CATÁLOGO
+========================== */
+.catalog-section {
+    background-color: #f4f6f8;
+}
+
+.catalog-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 40px;
+    max-width: 800px;
+    margin: 30px auto;
+    flex-wrap: wrap; 
+}
+
+.catalog-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.catalog-item img {
+    max-width: 250px; 
+    height: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-download {
+    display: inline-block;
+    padding: 12px 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.red-btn {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.red-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Arreglo específico para que el botón de accesorios sea más grande */
+.catalog-item:first-child .btn-download {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    margin-bottom: 15px; 
+}
+
+
+/* ==========================
+    FORMULARIO DETALLADO (COTIZAR) - NUEVOS ESTILOS
+========================== */
+/* Limpiamos estilos antiguos del formulario */
+#cotizar .section h2 {
+    margin-bottom: 5px; 
+}
+#cotizar form {
+    /* Eliminamos el max-width para el contenedor general del formulario */
+    max-width: none; 
+    padding: 0;
+    box-shadow: none;
+    background: none;
+}
+
+.form-description {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.detailed-form {
+    max-width: 700px; /* Ancho máximo para el formulario de dos columnas */
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background: #fff;
+    text-align: left;
+}
+
+.form-section-title {
+    margin: 15px 0 10px 0;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.form-section-title p {
+    font-weight: 700;
+    color: #222;
+    font-size: 1.1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group.full-width {
+    flex: 0 0 100%; /* Ocupa el 100% para el campo "Modelo" */
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.detailed-form input[type="text"],
+.detailed-form input[type="tel"],
+.detailed-form input[type="email"],
+.detailed-form select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+    -webkit-appearance: none; /* Quita el estilo nativo en Chrome/Safari */
+    -moz-appearance: none;    /* Quita el estilo nativo en Firefox */
+    appearance: none;         /* Quita el estilo nativo */
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2C197.8a12.6%2C12.6%2C0%2C0%2C1-17.7%2C0L146.2%2C71.3%2C23.1%2C197.8a12.6%2C12.6%2C0%2C0%2C1-17.7-17.7L137.4%2C47.2a12.6%2C12.6%2C0%2C0%2C1%2C17.7%2C0l132%2C132.8A12.6%2C12.6%2C0%2C0%2C1%2C287%2C197.8Z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+}
+
+/* RADIO BUTTONS (Tipo de documento) */
+.type-document {
+    padding-top: 5px; 
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.radio-group label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+    width: auto;
+    margin-bottom: 0;
+}
+
+/* Notas y Checkboxes */
+.form-note {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 15px 0 20px 0;
+    text-align: right;
+}
+
+.form-checkbox {
+    margin-bottom: 10px;
+}
+
+.form-checkbox label {
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    flex-shrink: 0; 
+    margin-top: 1px;
+}
+
+.detailed-form button {
+    background: #ff0000;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.detailed-form button:hover {
+    background: #cc0000;
+}
+
+/* ==========================
+    ANIMACIONES DE SCROLL (JS)
+========================== */
+.scroll-animation {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-animation.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.version-card:nth-child(2) { transition-delay: 0.1s; }
+.version-card:nth-child(3) { transition-delay: 0.2s; }
+.version-card:nth-child(4) { transition-delay: 0.3s; }
+.version-card:nth-child(5) { transition-delay: 0.4s; }
+.version-card:nth-child(6) { transition-delay: 0.5s; }
+.version-card:nth-child(7) { transition-delay: 0.6s; }
+
+
+/* ==========================
+    RESPONSIVE (Móvil)
+========================== */
+@media (max-width: 800px) {
+    /* Header ajustes */
+    nav {
+        display: none;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+    
+    .top-red-menu {
+        top: 55px;
+    }
+    
+    .container-red-menu {
+        justify-content: center;
+        gap: 10px;
+        padding: 0 5px;
+    }
+
+    .top-red-menu a {
+        font-size: 0.8rem;
+    }
+
+    .btn-contact {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .header-logo {
+        height: 35px;
+    }
+    
+    .sub-nav-section {
+        top: 85px;
+        /* Scroll margin en móvil - VALOR SEGURO */
+        scroll-margin-top: 150px;
+    }
+
+    /* Hero ajustes */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 10%;
+    }
+
+    .hero-text {
+        order: 2;
+        padding: 0;
+    }
+
+    /* Ajuste de Versiones en móvil: 2x2 o 1x1 */
+    .versions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        max-width: 90%;
+    }
+
+    /* Pestañas de diseño: 2x2 en móvil */
+    .design-image-grid {
+        grid-template-columns: repeat(2, 1fr); 
+        height: auto; 
+    }
+    
+    .design-image-grid img { 
+        height: auto;
+    }
+
+    /* Modulos de característica: 1 columna */
+    .feature-module-grid {
+        grid-template-columns: 1fr; 
+        padding: 0 10px;
+    }
+
+    /* Ajuste de Colores para móvil */
+    .color-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .car-display {
+        padding-top: 0;
+        max-width: 90%;
+    }
+    
+    .color-palette-container {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .color-palette-grid {
+        margin: 0 auto 15px auto;
+    }
+
+    /* Ajuste para anclas en móvil */
+    .section {
+        scroll-margin-top: 150px;
+    }
+
+    /* RESPONSIVE DEL FORMULARIO */
+    .detailed-form {
+        padding: 20px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+    
+    .form-group.full-width {
+        margin-bottom: 10px;
+    }
+
+    .radio-group {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .form-note {
+        text-align: left;
+    }
+}
