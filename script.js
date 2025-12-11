@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ===================================
     // 1. DATOS ESTÁTICOS Y BASE64 PARA PDF
     // ===================================
     const colorImageMap = {
         "Blanco": "CorollaHybrid-blanco_4x-01.jpg",
-        "Plata Metálico": "CorollaHybrid-gris_0x-01.jpg", // Debes tener esta imagen en tu carpeta
-        "Rojo Mica Metálico": "CorollaHybrid-rojo_0x-01.jpg", // Debes tener esta imagen en tu carpeta
-        "Negro Metálico": "CorollaHybrid-negro_0x-01.jpg", // Debes tener esta imagen en tu carpeta
-        "Blanco Perlado": "CorollaHybrid-perla_0x-01.jpg", // Debes tener esta imagen en tu carpeta
-        "Gris Celestial": "CorollaHybrid-azul_0x-01.jpg", // Debes tener esta imagen en tu carpeta
-        "Marrón Perlado": "CorollaHybrid-marron_0x-01.jpg" // Debes tener esta imagen en tu carpeta
+        "Plata Metálico": "CorollaHybrid-gris_0x-01.jpg", 
+        "Rojo Mica Metálico": "CorollaHybrid-rojo_0x-01.jpg", 
+        "Negro Metálico": "CorollaHybrid-negro_0x-01.jpg", 
+        "Blanco Perlado": "CorollaHybrid-perla_0x-01.jpg", 
+        "Gris Celestial": "CorollaHybrid-azul_0x-01.jpg", 
+        "Marrón Perlado": "CorollaHybrid-marron_0x-01.jpg" 
     };
     
     const PRECIOS_MODELOS = {
@@ -25,14 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapeo simple de tiendas (usado para imprimir en PDF)
     const DIRECCIONES_TIENDA = {
-        "Tienda1": "Tienda A (Ejemplo Dirección 1)",
-        "Tienda2": "Tienda B (Ejemplo Dirección 2)"
+        "Tienda A": "Tienda A (Ejemplo Dirección 1)",
+        "Tienda B": "Tienda B (Ejemplo Dirección 2)",
+        "San Miguel": "San Miguel (Av. Ejemplo 123)",
+        "La Molina": "La Molina (Av. Ejemplo 456)"
     };
     
     // Mapeo para Decision de Compra (Clave del HTML a Texto del PDF)
-    // Se ha ajustado para las CLAVES SIMPLIFICADAS en el nuevo HTML.
     const OPCIONES_COMPRA = {
-        "inmediato": "0 - 3 meses (Lo más pronto posible)",
+        "Inmediato": "0 - 3 meses (Lo más pronto posible)",
         "3-6meses": "3 - 6 meses",
         "7+meses": "7 meses a más",
         "solo_informacion": "Solo busco información"
@@ -42,13 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const LONGITUD_DOCUMENTO = {
         "DNI": 8,
         "RUC": 11,
-        "CE": 9 // Asumiendo C.E. (Carné de Extranjería) tiene 9 dígitos
+        "CE": 9 
     };
 
     // BASE64: Logo de la empresa para el PDF (Asegúrate de que esta ruta sea válida)
     const LOGO_BASE64 = "images/LOGOS_Grupo Pana-02-2.png"; // Usamos la imagen local si es posible, sino usa el base64 de emergencia.
     // Base64 de emergencia (si la línea anterior falla)
-    const LOGO_BASE64_EMERGENCY = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAgAQQDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAECBAMFBwb/xAA9EAACAQMCAwUFBQYFBQEBAAABAgMEEQASBSExQQYTUQciYRQyQlKBQmKRwRViY4IzsSRDc6LC8PH/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECBAX/xAAiEQEBAQEAAgICAwEBAAAAAAABAhESIQMxQQQyUSJhcSL/2gAARCAAgAQQDASIAAhEBAxEB/9gAwBAQA//wD9//g/19P6n+v/AC/19P6/3/t/9L/p9f8A7/n8/wC39/7/AKvX/wA/6v9f73f7/P8AD/f+v9/7/wBf/g/1/wA7/X/f9b/P+39/8v8P/9k="; 
+    const LOGO_BASE64_EMERGENCY = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAgAQQDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAECBAMFBwb/xAA9EAACAQMCAwUFBQYFBQEBAAABAgMEEQASBSExQQYTUQciYRQyQlKBQmKRwRViY4IzsSRDc6LC8PH/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECBAX/xAAiEQEBAQEAAgICAwEBAAAAAAABAhESIQMxQQQyUSJhcSL/2gAARCAAgAQQDASIAAhEBAR/9gAwBAQA//wD9//g/19P6n+v/AC/19P6/3/t/9L/p9f8A7/n8/wC39/7/AKvX/wA/6v9f73f7/P8AD/f+v9/7/wBf/g/1/wA7/X/f9b/P+39/8v8P/9k="; 
     
     function getModelPrices(modelo) {
         return PRECIOS_MODELOS[modelo] || { usd: 'N/A', pen: 'N/A' };
@@ -60,6 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getCompraOption(optionKey) {
         return OPCIONES_COMPRA[optionKey] || optionKey;
+    }
+
+    // ===================================
+    // NUEVA FUNCIÓN: GUARDADO DE DATOS (PARA EL PANEL)
+    // ===================================
+    function guardarCotizacion(formData) {
+        const datosCliente = {
+            fecha: new Date().toLocaleDateString('es-PE', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+            modelo: formData.modelo,
+            nombres: formData.nombres,
+            apellidos: formData.apellidos,
+            celular: formData.celular,
+            email: formData.email,
+            documentoTipo: formData.documento_tipo || 'N/A',
+            documentoNumero: formData.documento_numero,
+            tienda: formData.tienda,
+            decisionCompra: getCompraOption(formData.compra_decision) // Guardar el texto descriptivo
+        };
+
+        // 1. Obtener las cotizaciones existentes (o un array vacío)
+        let cotizaciones = JSON.parse(localStorage.getItem('cotizacionesClientes')) || [];
+
+        // 2. Agregar la nueva cotización
+        cotizaciones.push(datosCliente);
+
+        // 3. Guardar la lista actualizada en el navegador
+        localStorage.setItem('cotizacionesClientes', JSON.stringify(cotizaciones));
     }
 
 
@@ -92,21 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Quitar 'active' de todos los enlaces de pestañas
             tabLinks.forEach(l => l.classList.remove('active'));
-            // Añadir 'active' al enlace actual
             e.target.classList.add('active');
             
-            // Asegurar que el título 'Corolla' se mantenga activo visualmente si es necesario
             const corollaTitle = document.querySelector('.sub-nav-tabs .tab-title');
             if (corollaTitle) {
                  corollaTitle.classList.add('active');
             }
 
             const tabId = e.target.getAttribute('data-tab');
-            showTab(tabId); // Mostrar la sección con el ID correspondiente
+            showTab(tabId); 
             
-            // Desplazamiento suave al menú de pestañas
             document.getElementById('features-menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
@@ -145,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializar la selección de color
     if (colorSwatches.length > 0 && carColorDisplay && colorNameDisplay) {
-        // Establecer el color inicial si no está ya puesto
         const initialColor = colorSwatches[0].getAttribute('data-color');
         colorSwatches.forEach(s => s.classList.remove('selected')); 
         colorSwatches[0].classList.add('selected'); 
@@ -192,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const prices = getModelPrices(formData.modelo);
         
         // --- CABECERA (LOGO, TÍTULO Y FECHA) ---
-        // Intentar usar la imagen del logo local, si falla, usar el base64 de emergencia.
         try {
              doc.addImage(LOGO_BASE64, 'JPEG', 155, 10, 40, 15);
         } catch (error) {
@@ -215,8 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.setDrawColor(200, 200, 200);
         doc.rect(margin, y, 180, 75); 
         
-        // Cargar imagen del vehículo seleccionado (No se usa Base64 para simplificar, se omite imagen en PDF)
-        const infoX = margin + 5; // Posición de la información sin imagen de carro
+        // Marcador de imagen
+        doc.setDrawColor(220, 220, 220);
+        doc.rect(margin + 5, y + 5, 65, 65);
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.text("IMAGEN DEL VEHÍCULO", margin + 37.5, y + 37.5, null, null, "center");
+        doc.setTextColor(0, 0, 0);
+
+        const infoX = margin + 80; // Posición de la información (derecha del recuadro de imagen)
 
         // Título del Bloque de Vehículo
         doc.setFontSize(15);
@@ -233,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.text(`Color: ${formData.colorSeleccionado || 'No especificado'}`, infoX, y + 28);
         
         // Separador visual
-        doc.line(infoX, y + 32, infoX + 170, y + 32); 
+        doc.line(infoX, y + 32, margin + 180 - 5, y + 32); 
 
         // Precios
         doc.setFontSize(12);
@@ -265,45 +294,44 @@ document.addEventListener('DOMContentLoaded', () => {
         
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
+        const x1 = margin;
+        const x2 = margin + 50;
         
-        doc.text("Nombre Completo:", margin, y);
+        doc.text("Nombre Completo:", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(`${formData.nombres} ${formData.apellidos}`, margin + 50, y);
+        doc.text(`${formData.nombres} ${formData.apellidos}`, x2, y);
         y += 7;
         
         doc.setFont(undefined, 'normal');
-        doc.text("Celular:", margin, y);
+        doc.text("Celular:", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(formData.celular, margin + 50, y);
+        doc.text(formData.celular, x2, y);
         y += 7;
         
         doc.setFont(undefined, 'normal');
-        doc.text("Email:", margin, y);
+        doc.text("Email:", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(formData.email, margin + 50, y);
+        doc.text(formData.email, x2, y);
         y += 7;
 
         doc.setFont(undefined, 'normal');
-        doc.text("Documento (Nro/Tipo):", margin, y);
+        doc.text("Documento (Nro/Tipo):", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(`${formData.documento_numero} (${formData.documento_tipo || 'N/A'})`, margin + 50, y);
+        doc.text(`${formData.documento_numero} (${formData.documento_tipo || 'N/A'})`, x2, y);
         y += 7;
         
-        // Tienda
         const tiendaNombre = getStoreAddress(formData.tienda);
         doc.setFont(undefined, 'normal');
-        doc.text("Tienda de Preferencia:", margin, y);
+        doc.text("Tienda de Preferencia:", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(tiendaNombre || 'No especificado', margin + 50, y);
+        doc.text(tiendaNombre || 'No especificado', x2, y);
         y += 7;
 
-        // Decisión de Compra
         const compraTexto = getCompraOption(formData.compra_decision);
-        
         doc.setFont(undefined, 'normal');
-        doc.text("Decisión de Compra:", margin, y);
+        doc.text("Decisión de Compra:", x1, y);
         doc.setFont(undefined, 'bold');
-        doc.text(compraTexto || 'No especificado', margin + 50, y);
+        doc.text(compraTexto || 'No especificado', x2, y);
         y += 15;
 
 
@@ -318,6 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===================================
     // 6. VALIDACIONES DE LONGITUD Y FORMATO EN TIEMPO REAL
+    // (TU CÓDIGO DE VALIDACIÓN ORIGINAL)
     // ===================================
     const celularInput = document.getElementById('celular');
     const documentoTipoRadios = document.querySelectorAll('input[name="documento_tipo"]');
@@ -368,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-        // Inicializar la máscara al cargar la página si ya hay una opción preseleccionada (aunque no la hay en el HTML)
         updateDocumentMask(); 
     }
 
@@ -380,7 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (form) {
         form.addEventListener('submit', (e) => {
             
-            // Verificar la validez del formulario estándar
             if (!form.checkValidity()) {
                 e.preventDefault(); 
                 return;
@@ -402,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 documento_numero: form.documento_numero.value,
                 tienda: form.tienda.value,
                 compra_decision: form.compra_decision.value,
-                // Obtener el color seleccionado del display
                 colorSeleccionado: document.getElementById('color-name-display').textContent
             };
 
@@ -410,21 +436,25 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = 'Generando PDF...';
             submitButton.disabled = true;
 
-            // 2. Simular el envío y generar el PDF
+            // 2. Ejecutar la lógica de guardado y PDF
             setTimeout(() => {
                 
+                guardarCotizacion(formData); // <--- ¡AQUÍ SE REGISTRA EL CLIENTE!
                 generateQuotePDF(formData); 
                 
-                alert(`¡Tu solicitud ha sido enviada! Se ha generado el archivo: Cotizacion_Corolla_${formData.apellidos}.pdf`);
+                alert(`¡Tu solicitud ha sido enviada y registrada! Se ha generado el archivo: Cotizacion_Corolla_${formData.apellidos}.pdf`);
                 
                 // 3. Resetear el formulario y el botón
                 form.reset(); 
                 
-                // RESTABLECER LA VISUALIZACIÓN DEL COLOR a blanco
+                // RESTABLECER LA VISUALIZACIÓN DEL COLOR
                 const defaultColorSwatch = document.querySelector('.color-swatch[data-color="Blanco"]');
                 if (defaultColorSwatch) {
                     colorSwatches.forEach(s => s.classList.remove('selected'));
-                    defaultColorSwatch.click(); // Simular clic para actualizar la imagen y el nombre
+                    // No llamamos click() porque eso dispara todo el listener, solo hacemos el cambio visual
+                    colorNameDisplay.textContent = 'Blanco';
+                    carColorDisplay.src = `images/${colorImageMap['Blanco']}`;
+                    defaultColorSwatch.classList.add('selected'); 
                 }
                 
                 submitButton.textContent = originalText;
